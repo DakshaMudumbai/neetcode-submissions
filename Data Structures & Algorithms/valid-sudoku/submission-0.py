@@ -1,40 +1,62 @@
 class Solution:
     def isValidSudoku(self, board: List[List[str]]) -> bool:
+        # Check rows
+        for i in range(9):
+            seen = {}
 
-        #check for duplicates, in row, columns, and then box 
+            for j in range(9):
+                num = board[i][j]
 
-        for row in board:
-            seen = set()
-            for nums in row:
-                if nums == ".":
-                    continue 
-                if nums in seen:
+                if num == ".":
+                    continue
+
+                if num in seen:
                     return False
-                seen.add(nums)
-        
-        for row in range(9):
-            seen = set()
-            for col in range(9):
-                value = board[col][row]
-                if value == ".":
-                    continue 
-                if value in seen:
+
+                seen[num] = 1
+
+        # Check columns
+        for j in range(9):
+            seen = {}
+
+            for i in range(9):
+                num = board[i][j]
+
+                if num == ".":
+                    continue
+
+                if num in seen:
                     return False
-                seen.add(value)
-    
-        for box_row in range(0,9,3):
-            for box_col in range (0,9,3):
-                seen = set()
-                for i in range(box_row, box_row + 3):
-                    for j in range(box_col, box_col + 3):
-                        value = board[i][j]
-                        if value == ".":
-                            continue
-                        if value in seen:
-                            return False
-                        seen.add(value)
+
+                seen[num] = 1
+
+        # Check 3x3 boxes using your range idea
+        start_row = 0
+        start_col = 0
+
+        while start_row < 9:
+
+            seen = {}
+
+            for i in range(start_row, start_row + 3):
+                for j in range(start_col, start_col + 3):
+
+                    num = board[i][j]
+
+                    if num == ".":
+                        continue
+
+                    if num in seen:
+                        return False
+
+                    seen[num] = 1
+
+            start_col += 3
+
+            if start_col == 9:
+                start_col = 0
+                start_row += 3
 
         return True
-            
-            
+
         
